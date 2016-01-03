@@ -6,14 +6,15 @@ namespace CSharpTest
 	{
 		public static void Main (string[] args)
 		{
+			SellerTool.getInstance().CreatTable();
+		
+
 			while (true) {
 				Menu menu = new Menu ();
 				menu.Start ();
 			}
 		}
 	}
-
-
 
 	public class Menu
 	{
@@ -33,9 +34,10 @@ namespace CSharpTest
 			String input = Console.ReadLine ();
 			switch (input) {
 			case "1":
-				ShowLogin ();
+				ShowLoginType ();
 				break;
 			case "2":
+				ShowRegistType ();
 				break;
 			default:
 				break;
@@ -44,7 +46,7 @@ namespace CSharpTest
 
 		//-----------------------------  二级选项  -----------------------------
 
-		public void ShowLogin ()
+		public void ShowLoginType ()
 		{
 			Console.WriteLine ("选择登陆:");
 			Console.WriteLine ("1.买家");
@@ -75,6 +77,7 @@ namespace CSharpTest
 			case "1":
 				break;
 			case "2":
+				ShowRegistSeller ();
 				break;
 			case "3":
 				ShowStartType ();
@@ -86,7 +89,7 @@ namespace CSharpTest
 
 		//-----------------------------  三级选项  -----------------------------
 
-		public void ShowRegistSeller()
+		public void ShowRegistSeller ()
 		{
 			Console.WriteLine ("注册卖家");
 			Console.WriteLine ("输入用户名:");
@@ -94,12 +97,14 @@ namespace CSharpTest
 			Console.WriteLine ("输入密码:");
 			String inputPassWord = Console.ReadLine ();
 			if (true) {//可以注册
-				Seller seller=new Seller();
+				Seller seller = new Seller ();
 //				seller.Id=
-				seller.UserName=inputUserName;
-				seller.PassWord=inputPassWord;
+//				DateTime now=DateTime.Now;
+//				Console.WriteLine (now.ToString());
+				seller.UserName = inputUserName;
+				seller.PassWord = inputPassWord;
 				//存入数据库
-
+				SellerTool.getInstance().Add(seller);
 			}
 		}
 

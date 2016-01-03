@@ -4,7 +4,7 @@ namespace CSharpTest
 {
 	public class Seller
 	{
-		public int Id{ set; get; }
+//		public int Id{ set; get; }
 
 		public String UserName{ set; get; }
 
@@ -12,6 +12,12 @@ namespace CSharpTest
 
 		public Seller ()
 		{
+		}
+
+		public Seller (String userName, String passWord)
+		{
+			this.UserName = userName;
+			this.PassWord = passWord;
 		}
 	}
 }
