@@ -10,9 +10,9 @@
 using System;
 namespace CSharpTest
 {
-	public class Customer:User
+	public class User
 	{
-		public Customer ()
+		public User ()
 		{
 		}
 	}

@@ -6,8 +6,7 @@ namespace CSharpTest
 	{
 		public static void Main (string[] args)
 		{
-			SellerTool.getInstance().CreatTable();
-		
+			SellerTool.getInstance ().CreatTable ();
 
 			while (true) {
 				Menu menu = new Menu ();
@@ -57,6 +56,7 @@ namespace CSharpTest
 			case "1":
 				break;
 			case "2":
+				ShowLoginSeller ();
 				break;
 			case "3":
 				ShowAdminOption ();
@@ -89,6 +89,18 @@ namespace CSharpTest
 
 		//-----------------------------  三级选项  -----------------------------
 
+		public void ShowLoginSeller ()//注册不缓存，登陆才缓存
+		{
+			Console.WriteLine ("卖家登陆");
+			Console.WriteLine ("输入用户名:");
+			String inputUserName = Console.ReadLine ();
+			Console.WriteLine ("输入密码:");
+			String inputPassWord = Console.ReadLine ();
+			if (true) {//登录成功
+				//缓存数据
+			}
+		}
+
 		public void ShowRegistSeller ()
 		{
 			Console.WriteLine ("注册卖家");
@@ -104,7 +116,7 @@ namespace CSharpTest
 				seller.UserName = inputUserName;
 				seller.PassWord = inputPassWord;
 				//存入数据库
-				SellerTool.getInstance().Add(seller);
+				SellerTool.getInstance ().Add (seller);
 			}
 		}
 

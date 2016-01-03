@@ -2,7 +2,7 @@
 
 namespace CSharpTest
 {
-	public class Seller
+	public class Seller:User
 	{
 //		public int Id{ set; get; }
 

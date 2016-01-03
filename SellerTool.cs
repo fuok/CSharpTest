@@ -25,7 +25,7 @@ namespace CSharpTest
 
 		public void CreatTable ()
 		{
-			db = new DbAccess ("data source=CSharpTest.db");//数据库名//("Server=127.0.0.1;UserId=root;Password=;Database=li")
+			db = new DbAccess ("data source=CSharpTest.db");
 			//创建数据库表，与字段
 			db.CreateTable (tableName, new string[]{"userName","passWord"}, new string[] {
 				"text",
