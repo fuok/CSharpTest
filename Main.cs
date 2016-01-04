@@ -18,6 +18,8 @@ namespace CSharpTest
 	public class Menu
 	{
 
+		private User cacheUser;
+
 		public void Start ()
 		{
 			ShowStartType ();
@@ -96,8 +98,15 @@ namespace CSharpTest
 			String inputUserName = Console.ReadLine ();
 			Console.WriteLine ("输入密码:");
 			String inputPassWord = Console.ReadLine ();
-			if (true) {//登录成功
+			Seller seller = new Seller (inputUserName,inputPassWord);
+			if (SellerTool.getInstance().Query(seller)) {//登录成功
+				Console.WriteLine ("登录成功");
 				//缓存数据
+				cacheUser=seller;
+				//
+
+			}else{
+				Console.WriteLine ("登录失败");
 			}
 		}
 
@@ -117,6 +126,31 @@ namespace CSharpTest
 				seller.PassWord = inputPassWord;
 				//存入数据库
 				SellerTool.getInstance ().Add (seller);
+			}
+		}
+
+		//-----------------------------  四级选项  -----------------------------
+
+		public void ShowSellerOption()
+		{
+			Console.WriteLine ("选择卖家功能:");
+			Console.WriteLine ("1.查看卖家信息");
+			Console.WriteLine ("2.查看订单");
+			Console.WriteLine ("3.商品管理");
+			Console.WriteLine ("4.退出");
+			String input = Console.ReadLine ();
+			switch (input) {
+			case "1":
+				ShowSellerManage();
+				break;
+			case "2":
+				break;
+			case "3":
+				break;
+			case "4":
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -146,7 +180,52 @@ namespace CSharpTest
 			}
 		}
 
+		//-----------------------------  五级选项  -----------------------------
 
+		public void ShowSellerManage()
+		{
+			Console.WriteLine ("卖家信息:");
+			Console.WriteLine ("用户名:"+cacheUser.UserName+" 密码:"+cacheUser.PassWord);
+			Console.WriteLine ("1.修改密码");
+			Console.WriteLine ("2.退出");
+			String input = Console.ReadLine ();
+			switch (input) {
+			case "1":
+
+				break;
+			case "2":
+				break;
+			default:
+				break;
+			}
+		}
+
+		public void ShowItemsManage()
+		{
+			Console.WriteLine ("商品管理:");
+			Console.WriteLine ("1.查看商品列表");
+			Console.WriteLine ("2.添加商品");
+			Console.WriteLine ("3.修改商品");
+			Console.WriteLine ("4.下架商品");
+			Console.WriteLine ("5.退出");
+			String input = Console.ReadLine ();
+			switch (input) {
+			case "1":
+				break;
+			case "2":
+				break;
+			case "3":
+				break;
+			case "4":
+				break;
+			case "5":
+				break;
+			default:
+				break;
+			}
+		}
+
+		//-----------------------------  六级选项  -----------------------------
 
 	}
 }

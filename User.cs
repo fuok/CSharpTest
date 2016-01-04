@@ -12,8 +12,18 @@ namespace CSharpTest
 {
 	public class User
 	{
+		public String UserName{ set; get; }
+		
+		public String PassWord{ set; get; }
+		
 		public User ()
 		{
+		}
+		
+		public User (String userName, String passWord)
+		{
+			this.UserName = userName;
+			this.PassWord = passWord;
 		}
 	}
 }
