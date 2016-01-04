@@ -7,6 +7,7 @@ namespace CSharpTest
 		public static void Main (string[] args)
 		{
 			SellerTool.getInstance ().CreatTable ();
+			ItemTool.getInstance().CreatTable();
 
 			while (true) {
 				Menu menu = new Menu ();
@@ -98,14 +99,14 @@ namespace CSharpTest
 			String inputUserName = Console.ReadLine ();
 			Console.WriteLine ("输入密码:");
 			String inputPassWord = Console.ReadLine ();
-			Seller seller = new Seller (inputUserName,inputPassWord);
-			if (SellerTool.getInstance().Query(seller)) {//登录成功
+			Seller seller = new Seller (inputUserName, inputPassWord);
+			if (SellerTool.getInstance ().Query (seller)) {//登录成功
 				Console.WriteLine ("登录成功");
 				//缓存数据
-				cacheUser=seller;
+				cacheUser = seller;
 				//
-
-			}else{
+				ShowSellerOption ();
+			} else {
 				Console.WriteLine ("登录失败");
 			}
 		}
@@ -131,7 +132,7 @@ namespace CSharpTest
 
 		//-----------------------------  四级选项  -----------------------------
 
-		public void ShowSellerOption()
+		public void ShowSellerOption ()
 		{
 			Console.WriteLine ("选择卖家功能:");
 			Console.WriteLine ("1.查看卖家信息");
@@ -141,11 +142,12 @@ namespace CSharpTest
 			String input = Console.ReadLine ();
 			switch (input) {
 			case "1":
-				ShowSellerManage();
+				ShowSellerManage ();
 				break;
 			case "2":
 				break;
 			case "3":
+				ShowItemsManage ();
 				break;
 			case "4":
 				break;
@@ -182,10 +184,10 @@ namespace CSharpTest
 
 		//-----------------------------  五级选项  -----------------------------
 
-		public void ShowSellerManage()
+		public void ShowSellerManage ()
 		{
 			Console.WriteLine ("卖家信息:");
-			Console.WriteLine ("用户名:"+cacheUser.UserName+" 密码:"+cacheUser.PassWord);
+			Console.WriteLine ("用户名:" + cacheUser.UserName + " 密码:" + cacheUser.PassWord);
 			Console.WriteLine ("1.修改密码");
 			Console.WriteLine ("2.退出");
 			String input = Console.ReadLine ();
@@ -200,7 +202,7 @@ namespace CSharpTest
 			}
 		}
 
-		public void ShowItemsManage()
+		public void ShowItemsManage ()
 		{
 			Console.WriteLine ("商品管理:");
 			Console.WriteLine ("1.查看商品列表");
@@ -213,6 +215,7 @@ namespace CSharpTest
 			case "1":
 				break;
 			case "2":
+				ShowAddItem ();
 				break;
 			case "3":
 				break;
@@ -226,6 +229,21 @@ namespace CSharpTest
 		}
 
 		//-----------------------------  六级选项  -----------------------------
+
+		public void ShowAddItem ()
+		{
+			Console.WriteLine ("添加商品");
+			Console.WriteLine ("输入商品名:");
+			String inputName = Console.ReadLine ();
+			Console.WriteLine ("输入单价:");
+			int inputPrice = Convert.ToInt32 (Console.ReadLine ());
+			Item item = new Item (inputName, inputPrice, cacheUser.UserName);
+			if (true) {
+				//添加数据
+//				Console.WriteLine (item.Name+","+item.Price+","+item.Seller);
+				ItemTool.getInstance().Add(item);
+			}
+		}
 
 	}
 }

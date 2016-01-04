@@ -44,6 +44,8 @@
     <Compile Include="Customer.cs" />
     <Compile Include="CustomerTool.cs" />
     <Compile Include="User.cs" />
+    <Compile Include="Item.cs" />
+    <Compile Include="ItemTool.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

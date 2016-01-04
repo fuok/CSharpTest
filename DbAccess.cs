@@ -54,6 +54,23 @@ namespace CSharpTest
 			return ExecuteQuery (query);
 		}
 
+		public SqliteDataReader CreateTableById (string name, string[] col, string[] colType)
+		{
+			if (col.Length != colType.Length) {
+				throw new SqliteException ("columns.Length != colType.Length");
+			}
+			
+			string query = "CREATE TABLE IF NOT EXISTS " + name + " ("+"id int auto_increment PRIMARY KEY," + col [0] + " " + colType [0];
+			
+			for (int i = 1; i < col.Length; ++i) {
+				query += ", " + col [i] + " " + colType [i];
+			}
+			
+			query += ")";
+			
+			return ExecuteQuery (query);
+		}
+
 		/// <summary>
 		/// 打开数据库
 		/// </summary>

@@ -16,7 +16,7 @@ namespace CSharpTest
 		
 		private SellerTool ()
 		{
-			
+			db = new DbAccess ("data source=CSharpTest.db");
 		}
 
 		public static SellerTool getInstance ()
@@ -26,12 +26,14 @@ namespace CSharpTest
 
 		public void CreatTable ()
 		{
-			db = new DbAccess ("data source=CSharpTest.db");
+//			db = new DbAccess ("data source=CSharpTest.db");
+			db.OpenDB("data source=CSharpTest.db");
 			//创建数据库表，与字段
 			db.CreateTable (tableName, new string[]{"userName","passWord"}, new string[] {
 				"text",
 				"text"
 			});
+			db.CloseSqlConnection();
 		}
 
 		public void Add (Seller seller)
@@ -46,6 +48,8 @@ namespace CSharpTest
 		//查找，用于登陆
 		public bool Query (Seller seller)
 		{
+			bool rslt=false;
+			db.OpenDB("data source=CSharpTest.db");
 			//查询
 			SqliteDataReader sqReader = db.SelectWhere (tableName, new string[] {
 				"userName",
@@ -55,11 +59,12 @@ namespace CSharpTest
 //				Console.WriteLine (sqReader.GetString (sqReader.GetOrdinal ("userName")) + sqReader.GetString (sqReader.GetOrdinal ("passWord")));//GetString()也可以直接写列序号
 				if (seller.UserName.Equals(sqReader.GetString (sqReader.GetOrdinal ("userName")))) {
 					if (seller.PassWord.Equals(sqReader.GetString (sqReader.GetOrdinal ("passWord")))) {
-						return true;
+						rslt=true;
 					}
 				}
 			}
-			return false;
+			db.CloseSqlConnection();
+			return rslt;
 		}
 	}
 }
