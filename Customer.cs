@@ -15,6 +15,10 @@ namespace CSharpTest
 		public Customer ()
 		{
 		}
+
+		public Customer(String userName, String passWord):base(userName,passWord)
+		{
+		}
 	}
 }
 

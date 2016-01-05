@@ -7,7 +7,8 @@ namespace CSharpTest
 		public static void Main (string[] args)
 		{
 			SellerTool.getInstance ().CreatTable ();
-			ItemTool.getInstance().CreatTable();
+			CustomerTool.getInstance ().CreatTable ();
+			ItemTool.getInstance ().CreatTable ();
 
 			while (true) {
 				Menu menu = new Menu ();
@@ -57,6 +58,7 @@ namespace CSharpTest
 			String input = Console.ReadLine ();
 			switch (input) {
 			case "1":
+				ShowLoginCustomer ();
 				break;
 			case "2":
 				ShowLoginSeller ();
@@ -78,6 +80,7 @@ namespace CSharpTest
 			String input = Console.ReadLine ();
 			switch (input) {
 			case "1":
+				ShowRegistCustomer ();
 				break;
 			case "2":
 				ShowRegistSeller ();
@@ -92,6 +95,7 @@ namespace CSharpTest
 
 		//-----------------------------  三级选项  -----------------------------
 
+		//卖家登陆
 		public void ShowLoginSeller ()//注册不缓存，登陆才缓存
 		{
 			Console.WriteLine ("卖家登陆");
@@ -99,18 +103,21 @@ namespace CSharpTest
 			String inputUserName = Console.ReadLine ();
 			Console.WriteLine ("输入密码:");
 			String inputPassWord = Console.ReadLine ();
-			Seller seller = new Seller (inputUserName, inputPassWord);
-			if (SellerTool.getInstance ().Query (seller)) {//登录成功
+			Seller s = new Seller (inputUserName, inputPassWord);
+			if (SellerTool.getInstance ().Query (s)) {//登录成功
 				Console.WriteLine ("登录成功");
 				//缓存数据
-				cacheUser = seller;
-				//
+				cacheUser = s;
+//				if (cacheUser is Seller) {
+//					Console.WriteLine ("缓存成功");
+//				}
 				ShowSellerOption ();
 			} else {
 				Console.WriteLine ("登录失败");
 			}
 		}
 
+		//卖家注册
 		public void ShowRegistSeller ()
 		{
 			Console.WriteLine ("注册卖家");
@@ -119,19 +126,54 @@ namespace CSharpTest
 			Console.WriteLine ("输入密码:");
 			String inputPassWord = Console.ReadLine ();
 			if (true) {//可以注册
-				Seller seller = new Seller ();
+				Seller s = new Seller ();
 //				seller.Id=
 //				DateTime now=DateTime.Now;
 //				Console.WriteLine (now.ToString());
-				seller.UserName = inputUserName;
-				seller.PassWord = inputPassWord;
+				s.UserName = inputUserName;
+				s.PassWord = inputPassWord;
 				//存入数据库
-				SellerTool.getInstance ().Add (seller);
+				SellerTool.getInstance ().Add (s);
+			}
+		}
+
+		//买家登陆
+		public void ShowLoginCustomer ()//注册不缓存，登陆才缓存
+		{
+			Console.WriteLine ("买家登陆");
+			Console.WriteLine ("输入用户名:");
+			String inputUserName = Console.ReadLine ();
+			Console.WriteLine ("输入密码:");
+			String inputPassWord = Console.ReadLine ();
+			Customer c = new Customer (inputUserName, inputPassWord);
+			if (CustomerTool.getInstance ().Query (c)) {//登录成功
+				Console.WriteLine ("登录成功");
+				//缓存数据
+				cacheUser = c;
+				ShowCustomerOption ();
+			} else {
+				Console.WriteLine ("登录失败");
+			}
+		}
+
+		//买家注册
+		public void ShowRegistCustomer ()
+		{
+			Console.WriteLine ("注册买家");
+			Console.WriteLine ("输入用户名:");
+			String inputUserName = Console.ReadLine ();
+			Console.WriteLine ("输入密码:");
+			String inputPassWord = Console.ReadLine ();
+			if (true) {//可以注册
+				Customer c = new Customer (inputUserName, inputPassWord);
+				//存入数据库
+				CustomerTool.getInstance ().Add (c);
 			}
 		}
 
 		//-----------------------------  四级选项  -----------------------------
 
+		//卖家界面
 		public void ShowSellerOption ()
 		{
 			Console.WriteLine ("选择卖家功能:");
@@ -156,6 +198,14 @@ namespace CSharpTest
 			}
 		}
 
+		//买家界面
+		public void ShowCustomerOption()
+		{
+			Console.WriteLine ("选择买家功能:");
+			//TODO
+		}
+
+		//管理员界面
 		public void ShowAdminOption ()
 		{
 			Console.WriteLine ("选择管理员功能:");
@@ -241,8 +291,10 @@ namespace CSharpTest
 			if (true) {
 				//添加数据
 //				Console.WriteLine (item.Name+","+item.Price+","+item.Seller);
-				ItemTool.getInstance().Add(item);
+				ItemTool.getInstance ().Add (item);
 			}
+			//返回上级
+			ShowItemsManage ();
 		}
 
 	}

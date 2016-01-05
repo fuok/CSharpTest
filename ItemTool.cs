@@ -12,7 +12,8 @@ namespace CSharpTest
 {
 	public class ItemTool
 	{
-		private const String tableName = "items";
+		private const String tableName = "itemsTable";
+		private const String dbPath="data source=CSharpTest.db";
 		private static ItemTool instance;
 		private DbAccess db;
 		
@@ -23,7 +24,7 @@ namespace CSharpTest
 		
 		private ItemTool ()
 		{
-			db = new DbAccess ("data source=CSharpTest.db");
+			db = new DbAccess (dbPath);
 		}
 		
 		public static ItemTool getInstance ()
@@ -33,8 +34,8 @@ namespace CSharpTest
 		
 		public void CreatTable ()
 		{
-//			db = new DbAccess ("data source=CSharpTest.db");
-			db.OpenDB("data source=CSharpTest.db");
+			//			db = new DbAccess (dbPath);
+			db.OpenDB(dbPath);
 			//创建数据库表，与字段
 			db.CreateTableById (tableName, new string[]{"name","price","seller"}, new string[] {
 				"text",
@@ -46,7 +47,7 @@ namespace CSharpTest
 		
 		public void Add (Item item)
 		{
-			db.OpenDB("data source=CSharpTest.db");
+			db.OpenDB(dbPath);
 			//添加数据
 			db.InsertIntoSpecific (tableName,new string[]{"name","price","seller"},new string[] {//表名
 				"'" + item.Name + "'",

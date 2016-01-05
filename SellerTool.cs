@@ -5,7 +5,8 @@ namespace CSharpTest
 {
 	public class SellerTool
 	{
-		private const String tableName = "seller";
+		private const String tableName = "sellersTable";
+		private const String dbPath="data source=CSharpTest.db";
 		private static SellerTool instance;
 		private DbAccess db;
 
@@ -16,7 +17,7 @@ namespace CSharpTest
 		
 		private SellerTool ()
 		{
-			db = new DbAccess ("data source=CSharpTest.db");
+			db = new DbAccess (dbPath);
 		}
 
 		public static SellerTool getInstance ()
@@ -26,8 +27,8 @@ namespace CSharpTest
 
 		public void CreatTable ()
 		{
-//			db = new DbAccess ("data source=CSharpTest.db");
-			db.OpenDB("data source=CSharpTest.db");
+			//			db = new DbAccess (dbPath);
+			db.OpenDB(dbPath);
 			//创建数据库表，与字段
 			db.CreateTable (tableName, new string[]{"userName","passWord"}, new string[] {
 				"text",
@@ -38,18 +39,20 @@ namespace CSharpTest
 
 		public void Add (Seller seller)
 		{
+			db.OpenDB(dbPath);
 			//添加数据
 			db.InsertInto (tableName, new string[] {//表名
 				"'" + seller.UserName + "'",
 				"'" + seller.PassWord + "'"
 			});
+			db.CloseSqlConnection();
 		}
 
 		//查找，用于登陆
 		public bool Query (Seller seller)
 		{
 			bool rslt=false;
-			db.OpenDB("data source=CSharpTest.db");
+			db.OpenDB(dbPath);
 			//查询
 			SqliteDataReader sqReader = db.SelectWhere (tableName, new string[] {
 				"userName",
