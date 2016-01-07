@@ -39,9 +39,9 @@ namespace CSharpTest
 			//			db = new DbAccess (dbPath);
 			db.OpenDB(dbPath);
 			//创建数据库表，与字段
-			db.CreateTable (tableName, new string[]{"userName","passWord"}, new string[] {
+			db.CreateTable (tableName, new string[]{"userName","passWord","acount"}, new string[] {
 				"text",
-				"text"
+				"text","int"
 			});
 			db.CloseSqlConnection();
 		}
@@ -52,7 +52,7 @@ namespace CSharpTest
 			//添加数据
 			db.InsertInto (tableName, new string[] {//表名
 				"'" + customer.UserName + "'",
-				"'" + customer.PassWord + "'"
+				"'" + customer.PassWord + "'",""+customer.Acount+""
 			});
 			db.CloseSqlConnection();
 		}

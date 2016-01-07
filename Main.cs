@@ -19,7 +19,6 @@ namespace CSharpTest
 
 	public class Menu
 	{
-
 		private User cacheUser;
 
 		public void Start ()
@@ -106,7 +105,7 @@ namespace CSharpTest
 			Seller s = new Seller (inputUserName, inputPassWord);
 			if (SellerTool.getInstance ().Query (s)) {//登录成功
 				Console.WriteLine ("登录成功");
-				//缓存数据
+				//缓存数据,XXX
 				cacheUser = s;
 //				if (cacheUser is Seller) {
 //					Console.WriteLine ("缓存成功");
@@ -148,7 +147,7 @@ namespace CSharpTest
 			Customer c = new Customer (inputUserName, inputPassWord);
 			if (CustomerTool.getInstance ().Query (c)) {//登录成功
 				Console.WriteLine ("登录成功");
-				//缓存数据
+				//缓存数据,XXX
 				cacheUser = c;
 				ShowCustomerOption ();
 			} else {
@@ -202,7 +201,25 @@ namespace CSharpTest
 		public void ShowCustomerOption()
 		{
 			Console.WriteLine ("选择买家功能:");
-			//TODO
+			Console.WriteLine ("1.查看买家信息");
+			Console.WriteLine ("2.查看订单");
+			Console.WriteLine ("3.去购物");
+			Console.WriteLine ("4.退出");
+			String input = Console.ReadLine ();
+			switch (input) {
+			case "1":
+				ShowCustomerManage ();
+				break;
+			case "2":
+				break;
+			case "3":
+				ShowItemsManage ();
+				break;
+			case "4":
+				break;
+			default:
+				break;
+			}
 		}
 
 		//管理员界面
@@ -234,6 +251,7 @@ namespace CSharpTest
 
 		//-----------------------------  五级选项  -----------------------------
 
+		//卖家信息管理
 		public void ShowSellerManage ()
 		{
 			Console.WriteLine ("卖家信息:");
@@ -272,6 +290,26 @@ namespace CSharpTest
 			case "4":
 				break;
 			case "5":
+				break;
+			default:
+				break;
+			}
+		}
+
+		//买家信息管理
+		public void ShowCustomerManage()
+		{
+			Console.WriteLine ("买家信息:");
+			Console.WriteLine ("用户名:" + cacheUser.UserName + " 密码:" + cacheUser.PassWord);//TODO,jin e
+			Console.WriteLine ("1.修改密码");
+			Console.WriteLine ("2.现金充值");
+			Console.WriteLine ("3.退出");
+			String input = Console.ReadLine ();
+			switch (input) {
+			case "1":
+				
+				break;
+			case "2":
 				break;
 			default:
 				break;
