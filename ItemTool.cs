@@ -37,11 +37,11 @@ namespace CSharpTest
 			//			db = new DbAccess (dbPath);
 			db.OpenDB(dbPath);
 			//创建数据库表，与字段
-			db.CreateTableById (tableName, new string[]{"name","price","seller"}, new string[] {
+			db.CreateTable (tableName, new string[]{"name","price","seller"}, new string[] {
 				"text",
 				"int",
 				"text"
-			});
+			},true);
 			db.CloseSqlConnection();
 		}
 		
@@ -51,7 +51,7 @@ namespace CSharpTest
 			//添加数据
 			db.InsertIntoSpecific (tableName,new string[]{"name","price","seller"},new string[] {//表名
 				"'" + item.Name + "'",
-				"'" + item.Price + "'",
+				"" + item.Price + "",
 				"'" + item.Seller + "'"
 			});
 			db.CloseSqlConnection();

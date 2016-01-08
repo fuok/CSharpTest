@@ -37,30 +37,17 @@ namespace CSharpTest
 		/// <param name="name">Name.</param>
 		/// <param name="col">Col.</param>
 		/// <param name="colType">Col type.</param>
-		public SqliteDataReader CreateTable (string name, string[] col, string[] colType)
+		public SqliteDataReader CreateTable (string name, string[] col, string[] colType, bool autoId)
 		{
 			if (col.Length != colType.Length) {
 				throw new SqliteException ("columns.Length != colType.Length");
 			}
 			
-			string query = "CREATE TABLE IF NOT EXISTS " + name + " (" + col [0] + " " + colType [0];
-			
-			for (int i = 1; i < col.Length; ++i) {
-				query += ", " + col [i] + " " + colType [i];
+			string query = "CREATE TABLE IF NOT EXISTS " + name + " (";
+			if (autoId) {
+				query += "id INTEGER PRIMARY KEY AUTOINCREMENT,";
 			}
-			
-			query += ")";
-			
-			return ExecuteQuery (query);
-		}
-
-		public SqliteDataReader CreateTableById (string name, string[] col, string[] colType)
-		{
-			if (col.Length != colType.Length) {
-				throw new SqliteException ("columns.Length != colType.Length");
-			}
-			
-			string query = "CREATE TABLE IF NOT EXISTS " + name + " ("+"id int auto_increment PRIMARY KEY," + col [0] + " " + colType [0];
+			query += col [0] + " " + colType [0];
 			
 			for (int i = 1; i < col.Length; ++i) {
 				query += ", " + col [i] + " " + colType [i];

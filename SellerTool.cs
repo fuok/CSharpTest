@@ -33,7 +33,7 @@ namespace CSharpTest
 			db.CreateTable (tableName, new string[]{"userName","passWord","acount"}, new string[] {
 				"text",
 				"text","int"
-			});
+			},false);
 			db.CloseSqlConnection();
 		}
 

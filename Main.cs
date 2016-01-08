@@ -19,7 +19,7 @@ namespace CSharpTest
 
 	public class Menu
 	{
-		private User cacheUser;
+		private User cacheUser;//目前缓存数据是错误的，要从数据库获取,TODO
 
 		public void Start ()
 		{
@@ -175,6 +175,7 @@ namespace CSharpTest
 		//卖家界面
 		public void ShowSellerOption ()
 		{
+			//把缓存放到这里比较好,TODO
 			Console.WriteLine ("选择卖家功能:");
 			Console.WriteLine ("1.查看卖家信息");
 			Console.WriteLine ("2.查看订单");
@@ -198,8 +199,9 @@ namespace CSharpTest
 		}
 
 		//买家界面
-		public void ShowCustomerOption()
+		public void ShowCustomerOption ()
 		{
+			//偷个懒，直接用name登录吧,把缓存放到这里比较好,TODO
 			Console.WriteLine ("选择买家功能:");
 			Console.WriteLine ("1.查看买家信息");
 			Console.WriteLine ("2.查看订单");
@@ -255,7 +257,7 @@ namespace CSharpTest
 		public void ShowSellerManage ()
 		{
 			Console.WriteLine ("卖家信息:");
-			Console.WriteLine ("用户名:" + cacheUser.UserName + " 密码:" + cacheUser.PassWord);
+			Console.WriteLine ("用户名:" + cacheUser.UserName + " 密码:" + cacheUser.PassWord + " 金额:" + cacheUser.Acount);
 			Console.WriteLine ("1.修改密码");
 			Console.WriteLine ("2.退出");
 			String input = Console.ReadLine ();
@@ -297,10 +299,10 @@ namespace CSharpTest
 		}
 
 		//买家信息管理
-		public void ShowCustomerManage()
+		public void ShowCustomerManage ()
 		{
 			Console.WriteLine ("买家信息:");
-			Console.WriteLine ("用户名:" + cacheUser.UserName + " 密码:" + cacheUser.PassWord);//TODO,jin e
+			Console.WriteLine ("用户名:" + cacheUser.UserName + " 密码:" + cacheUser.PassWord + " 金额:" + cacheUser.Acount);
 			Console.WriteLine ("1.修改密码");
 			Console.WriteLine ("2.现金充值");
 			Console.WriteLine ("3.退出");
