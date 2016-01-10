@@ -17,66 +17,62 @@ namespace CSharpTest
 	public class ItemTool
 	{
 		private const String tableName = "itemsTable";
-		private const String dbPath="data source=CSharpTest.db";
+		private const String dbPath = "data source=CSharpTest.db";
 		private static ItemTool instance;
 		private DbAccess db;
-		
+
 		static ItemTool ()
 		{
 			instance = new ItemTool ();
 		}
-		
+
 		private ItemTool ()
 		{
 			db = new DbAccess (dbPath);
 		}
-		
+
 		public static ItemTool getInstance ()
 		{
 			return instance;
 		}
-		
+
 		public void CreatTable ()
 		{
 			//			db = new DbAccess (dbPath);
-			db.OpenDB(dbPath);
+			db.OpenDB (dbPath);
 			//创建数据库表，与字段
-			db.CreateTable (tableName, new string[]{"name","price","seller"}, new string[] {
-				"text",
-				"int",
-				"text"
-			},true);
-			db.CloseSqlConnection();
+			db.CreateTable (tableName, new string[]{ "name", "price", "seller" }, new string[] {
+				"text", "int", "text"
+			}, true);
+			db.CloseSqlConnection ();
 		}
 
 		//卖家添加商品
 		public void Add (Item item)
 		{
-			db.OpenDB(dbPath);
+			db.OpenDB (dbPath);
 			//添加数据
-			db.InsertIntoSpecific (tableName,new string[]{"name","price","seller"},new string[] {//表名
-				"'" + item.Name + "'",
-				"" + item.Price + "",
-				"'" + item.Seller + "'"
+			db.InsertIntoSpecific (tableName, new string[]{ "name", "price", "seller" }, new string[] {//表名
+				"'" + item.Name + "'", "" + item.Price + "", "'" + item.Seller + "'"
 			});
-			db.CloseSqlConnection();
+			db.CloseSqlConnection ();
 		}
 
-//		查找商品列表，用于购物
-		public List<Item> GetAllItems()
+		//		查找商品列表，用于购物
+		public List<Item> GetAllItems ()
 		{
-			db.OpenDB(dbPath);
-			SqliteDataReader reader=db.ReadFullTable(tableName);
-			List<Item> itemList=new List<Item>();
-			while (reader.Read()) {
-				Item item=new Item();
-				item.Id=reader.GetInt32(reader.GetOrdinal("id"));
-				item.Name=reader.GetString(reader.GetOrdinal("name"));
-				item.Price=reader.GetInt32(reader.GetOrdinal("price"));
-				item.Seller=reader.GetString(reader.GetOrdinal("seller"));
-				itemList.Add(item);
+			db.OpenDB (dbPath);
+			SqliteDataReader reader = db.ReadFullTable (tableName);
+			List<Item> itemList = new List<Item> ();
+			while (reader.Read ()) {
+				Item item = new Item ();
+				item.Id = reader.GetInt32 (reader.GetOrdinal ("id"));
+				item.Name = reader.GetString (reader.GetOrdinal ("name"));
+				item.Price = reader.GetInt32 (reader.GetOrdinal ("price"));
+				item.Seller = reader.GetString (reader.GetOrdinal ("seller"));
+				itemList.Add (item);
 			}
-			db.CloseSqlConnection();
+			db.CloseSqlConnection ();
 			return itemList;
 		}
 

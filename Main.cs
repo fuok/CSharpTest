@@ -10,6 +10,7 @@ namespace CSharpTest
 			SellerTool.getInstance ().CreatTable ();
 			CustomerTool.getInstance ().CreatTable ();
 			ItemTool.getInstance ().CreatTable ();
+			PayTools.getInstance ().CreatTable ();
 
 			while (true) {
 				Menu menu = new Menu ();
@@ -44,6 +45,7 @@ namespace CSharpTest
 				ShowRegistType ();
 				break;
 			default:
+				ShowStartType ();
 				break;
 			}
 		}
@@ -68,6 +70,7 @@ namespace CSharpTest
 				ShowAdminOption ();
 				break;
 			default:
+				ShowLoginType ();
 				break;
 			}
 		}
@@ -90,6 +93,7 @@ namespace CSharpTest
 				ShowStartType ();
 				break;
 			default:
+				ShowRegistType ();
 				break;
 			}
 		}
@@ -125,9 +129,6 @@ namespace CSharpTest
 			String inputPassWord = Console.ReadLine ();
 			if (true) {//可以注册
 				Seller s = new Seller ();
-//				seller.Id=
-//				DateTime now=DateTime.Now;
-//				Console.WriteLine (now.ToString());
 				s.UserName = inputUserName;
 				s.PassWord = inputPassWord;
 				//存入数据库
@@ -197,6 +198,7 @@ namespace CSharpTest
 			case "4":
 				break;
 			default:
+				ShowSellerOption ();
 				break;
 			}
 		}
@@ -227,6 +229,7 @@ namespace CSharpTest
 			case "4":
 				break;
 			default:
+				ShowCustomerOption ();
 				break;
 			}
 		}
@@ -254,6 +257,7 @@ namespace CSharpTest
 				ShowStartType ();
 				break;
 			default:
+				ShowAdminOption ();
 				break;
 			}
 		}
@@ -275,6 +279,7 @@ namespace CSharpTest
 			case "2":
 				break;
 			default:
+				ShowSellerManage ();
 				break;
 			}
 		}
@@ -301,6 +306,7 @@ namespace CSharpTest
 			case "5":
 				break;
 			default:
+				ShowItemsManage ();
 				break;
 			}
 		}
@@ -322,8 +328,10 @@ namespace CSharpTest
 				ShowCustomerPay ();
 				break;
 			case "3":
+				ShowCustomerOption ();
 				break;
 			default:
+				ShowCustomerManage ();
 				break;
 			}
 		}
@@ -349,8 +357,10 @@ namespace CSharpTest
 				ShowPayCheck ();
 				break;
 			case "3":
+				ShowCustomerOption ();
 				break;
 			default:
+				ShowShoppingList ();
 				break;
 			}
 		}
@@ -400,19 +410,31 @@ namespace CSharpTest
 		//结账
 		public void ShowPayCheck ()
 		{
-			foreach (Item item in cacheShoppingCar) {//便利购物车
-				Console.WriteLine (item.ToString ());
-				//创建订单并保存,TODO
-
-				//扣除买家金额并保存
-				CustomerTool.getInstance ().UpdateCustomer ("acount", cacheUser.Acount - item.Price + "", "userName", cacheUser.UserName);
-				//添加卖家收入并保存
-				Seller s = SellerTool.getInstance ().getSellerData (item.Seller);
-				SellerTool.getInstance ().UpdateSeller ("acount", s.Acount + item.Price + "", "userName", s.UserName);
+			int totalPrice = 0;
+			foreach (Item item in cacheShoppingCar) {
+				totalPrice += item.Price;
 			}
-			//清空购物车
-			cacheShoppingCar.Clear ();
-			Console.WriteLine ("支付成功");
+			if (cacheUser.Acount >= totalPrice) {
+				foreach (Item item in cacheShoppingCar) {//便利购物车
+					Console.WriteLine (item.ToString ());
+					//扣除买家金额并保存
+					CustomerTool.getInstance ().UpdateCustomer ("acount", cacheUser.Acount - item.Price + "", "userName", cacheUser.UserName);
+					//添加卖家收入并保存
+					Seller s = SellerTool.getInstance ().getSellerData (item.Seller);
+					SellerTool.getInstance ().UpdateSeller ("acount", s.Acount + item.Price + "", "userName", s.UserName);
+					//创建订单并保存
+					DateTime now = DateTime.Now;
+					//Console.WriteLine (now.ToString ());
+					Pay p = new Pay (s.UserName, cacheUser.UserName, item.Name, now.ToString ());
+					PayTools.getInstance ().Add (p);
+				}
+				//清空购物车
+				cacheShoppingCar.Clear ();
+				Console.WriteLine ("支付成功");
+			} else {//余额不足
+				Console.WriteLine ("余额不足,先去充值");
+				ShowCustomerOption ();
+			}
 		}
 
 	}
