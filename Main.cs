@@ -19,7 +19,7 @@ namespace CSharpTest
 
 	public class Menu
 	{
-		private User cacheUser;//目前缓存数据是错误的，要从数据库获取,TODO
+		private User cacheUser;
 
 		public void Start ()
 		{
@@ -105,11 +105,8 @@ namespace CSharpTest
 			Seller s = new Seller (inputUserName, inputPassWord);
 			if (SellerTool.getInstance ().Query (s)) {//登录成功
 				Console.WriteLine ("登录成功");
-				//缓存数据,XXX
+				//第一次缓存数据,这个是临时数据，不完整的
 				cacheUser = s;
-//				if (cacheUser is Seller) {
-//					Console.WriteLine ("缓存成功");
-//				}
 				ShowSellerOption ();
 			} else {
 				Console.WriteLine ("登录失败");
@@ -147,7 +144,7 @@ namespace CSharpTest
 			Customer c = new Customer (inputUserName, inputPassWord);
 			if (CustomerTool.getInstance ().Query (c)) {//登录成功
 				Console.WriteLine ("登录成功");
-				//缓存数据,XXX
+				//第一次缓存数据,这个是临时数据，不完整的
 				cacheUser = c;
 				ShowCustomerOption ();
 			} else {
@@ -175,7 +172,11 @@ namespace CSharpTest
 		//卖家界面
 		public void ShowSellerOption ()
 		{
-			//把缓存放到这里比较好,TODO
+			//读取卖家数据并缓存,登录时虽然缓存了卖家数据，但只是临时数据，因为要刷新金额，所以干脆把完整的缓存位置改到这里
+			cacheUser = SellerTool.getInstance ().getSellerData (cacheUser.UserName);
+			if (cacheUser is Seller) {
+				Console.WriteLine ("缓存成功");
+			}
 			Console.WriteLine ("选择卖家功能:");
 			Console.WriteLine ("1.查看卖家信息");
 			Console.WriteLine ("2.查看订单");
@@ -201,7 +202,11 @@ namespace CSharpTest
 		//买家界面
 		public void ShowCustomerOption ()
 		{
-			//偷个懒，直接用name登录吧,把缓存放到这里比较好,TODO
+			//读取卖家数据并缓存,登录时虽然缓存了卖家数据，但只是临时数据，因为要刷新金额，所以干脆把完整的缓存位置改到这里
+			cacheUser = CustomerTool.getInstance ().getCustomerData (cacheUser.UserName);
+			if (cacheUser is Customer) {
+				Console.WriteLine ("缓存成功");
+			}
 			Console.WriteLine ("选择买家功能:");
 			Console.WriteLine ("1.查看买家信息");
 			Console.WriteLine ("2.查看订单");
@@ -215,7 +220,7 @@ namespace CSharpTest
 			case "2":
 				break;
 			case "3":
-				ShowItemsManage ();
+				ShowShoppingList ();
 				break;
 			case "4":
 				break;
@@ -312,10 +317,19 @@ namespace CSharpTest
 				
 				break;
 			case "2":
+				ShowCustomerPay ();
+				break;
+			case "3":
 				break;
 			default:
 				break;
 			}
+		}
+
+		//购物列表
+		public void ShowShoppingList ()
+		{
+//			SqliteDataReader sqReader //TODO
 		}
 
 		//-----------------------------  六级选项  -----------------------------
@@ -335,6 +349,16 @@ namespace CSharpTest
 			}
 			//返回上级
 			ShowItemsManage ();
+		}
+
+		//买家充值
+		public void ShowCustomerPay ()
+		{
+			Console.WriteLine ("现金充值");
+			Console.WriteLine ("输入充值金额:");
+			int amount = Convert.ToInt32 (Console.ReadLine ());
+			CustomerTool.getInstance ().UpdateCustomer ("acount", cacheUser.Acount + amount + "", "userName", cacheUser.UserName);
+			ShowCustomerOption ();
 		}
 
 	}

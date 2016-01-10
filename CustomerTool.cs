@@ -15,69 +15,93 @@ namespace CSharpTest
 	public class CustomerTool
 	{
 		private const String tableName = "customersTable";
-		private const String dbPath="data source=CSharpTest.db";
+		private const String dbPath = "data source=CSharpTest.db";
 		private static CustomerTool instance;
 		private DbAccess db;
-		
+
 		static CustomerTool ()
 		{
 			instance = new CustomerTool ();
 		}
-		
+
 		private CustomerTool ()
 		{
 			db = new DbAccess (dbPath);
 		}
-		
+
 		public static CustomerTool getInstance ()
 		{
 			return instance;
 		}
-		
+
 		public void CreatTable ()
 		{
 			//			db = new DbAccess (dbPath);
-			db.OpenDB(dbPath);
+			db.OpenDB (dbPath);
 			//创建数据库表，与字段
-			db.CreateTable (tableName, new string[]{"userName","passWord","acount"}, new string[] {
-				"text",
-				"text","int"
-			},false);
-			db.CloseSqlConnection();
+			db.CreateTable (tableName, new string[]{ "userName", "passWord", "acount" }, new string[] {
+				"text", "text", "int"
+			}, false);
+			db.CloseSqlConnection ();
 		}
-		
+
 		public void Add (Customer customer)
 		{
-			db.OpenDB(dbPath);
+			db.OpenDB (dbPath);
 			//添加数据
 			db.InsertInto (tableName, new string[] {//表名
-				"'" + customer.UserName + "'",
-				"'" + customer.PassWord + "'",""+customer.Acount+""
+				"'" + customer.UserName + "'", "'" + customer.PassWord + "'", "" + customer.Acount + ""
 			});
-			db.CloseSqlConnection();
+			db.CloseSqlConnection ();
 		}
 		
 		//查找，用于登陆
 		public bool Query (Customer customer)
 		{
-			bool rslt=false;
-			db.OpenDB(dbPath);
+			bool rslt = false;
+			db.OpenDB (dbPath);
 			//查询
 			SqliteDataReader sqReader = db.SelectWhere (tableName, new string[] {
 				"userName",
 				"passWord"
-			}, new string[]{"userName"}, new string[]{"="}, new string[]{customer.UserName});
-			while (sqReader.Read()) {
+			}, new string[]{ "userName" }, new string[]{ "=" }, new string[]{ customer.UserName });
+			while (sqReader.Read ()) {
 				//				Console.WriteLine (sqReader.GetString (sqReader.GetOrdinal ("userName")) + sqReader.GetString (sqReader.GetOrdinal ("passWord")));//GetString()也可以直接写列序号
-				if (customer.UserName.Equals(sqReader.GetString (sqReader.GetOrdinal ("userName")))) {
-					if (customer.PassWord.Equals(sqReader.GetString (sqReader.GetOrdinal ("passWord")))) {
-						rslt=true;
+				if (customer.UserName.Equals (sqReader.GetString (sqReader.GetOrdinal ("userName")))) {
+					if (customer.PassWord.Equals (sqReader.GetString (sqReader.GetOrdinal ("passWord")))) {
+						rslt = true;
 					}
 				}
 			}
-			db.CloseSqlConnection();
+			db.CloseSqlConnection ();
 			return rslt;
 		}
+
+		// 查找，用于缓存
+		public Customer getCustomerData (String name)
+		{
+			Customer c = new Customer ();
+			db.OpenDB (dbPath);
+			SqliteDataReader sqReader = db.SelectWhere (tableName, new string[] {
+				"userName", "passWord", "acount"
+			}, new string[]{ "userName" }, new string[]{ "=" }, new string[]{ name });
+			while (sqReader.Read ()) {
+				c.UserName = sqReader.GetString (sqReader.GetOrdinal ("userName"));
+				c.PassWord = sqReader.GetString (sqReader.GetOrdinal ("passWord"));
+				c.Acount = sqReader.GetInt32 (sqReader.GetOrdinal ("acount"));
+			}
+			db.CloseSqlConnection ();
+			return c;
+		}
+
+		//修改数值，用于充值等
+		public void UpdateCustomer (String colname, String value, String selectKey, String selectValue)
+		{
+			db.OpenDB (dbPath);
+			db.UpdateInto (tableName, new string[]{ colname }, new string[] { value }, selectKey, selectValue);
+			db.CloseSqlConnection ();
+		}
+
 	}
 }
 

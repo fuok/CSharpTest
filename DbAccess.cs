@@ -29,7 +29,7 @@ namespace CSharpTest
 		{
 
 		}
-		
+
 		/// <summary>
 		/// 创建本地数据库
 		/// </summary>
@@ -117,7 +117,7 @@ namespace CSharpTest
 
 			return reader;
 		}
-		
+
 		/// <summary>
 		/// 插入数据
 		/// </summary>
@@ -136,7 +136,7 @@ namespace CSharpTest
 			
 			return ExecuteQuery (query);
 		}
-		
+
 		/// <summary>
 		/// 在指定列插入数据
 		/// </summary>
@@ -166,7 +166,7 @@ namespace CSharpTest
 			
 			return ExecuteQuery (query);
 		}
-		
+
 		/// <summary>
 		/// 删除数据
 		/// </summary>
@@ -183,7 +183,7 @@ namespace CSharpTest
 			//			Debug.Log(query);
 			return ExecuteQuery (query);//SQLite貌似没有ExecuteNonQuery()
 		}
-		
+
 		/// <summary>
 		/// 清空表
 		/// </summary>
@@ -249,13 +249,13 @@ namespace CSharpTest
 		/// <param name="selectvalue">Selectvalue.</param>
 		public SqliteDataReader UpdateInto (string tableName, string[]cols, string[]colsvalues, string selectkey, string selectvalue)
 		{
-			string query = "UPDATE " + tableName + " SET " + cols [0] + " = " + colsvalues [0];
+			string query = "UPDATE " + tableName + " SET " + cols [0] + " = " + "'" + colsvalues [0] + "'";
 
 			for (int i = 1; i < colsvalues.Length; ++i) {
-				query += ", " + cols [i] + " =" + colsvalues [i];
+				query += ", " + cols [i] + " =" + "'" + colsvalues [i] + "'";
 			}
 
-			query += " WHERE " + selectkey + " = " + selectvalue + " ";
+			query += " WHERE " + selectkey + " = " + "'" + selectvalue + "'";
 
 			return ExecuteQuery (query);
 		}
