@@ -30,6 +30,12 @@ namespace CSharpTest
 			this.Price = price;
 			this.Seller = seller;
 		}
+
+		public override string ToString ()
+		{
+			return string.Format ("[Item: Id={0}, Name={1}, Price={2}, Seller={3}]", Id, Name, Price, Seller);
+		}
+		
 	}
 }
 

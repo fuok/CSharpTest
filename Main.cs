@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace CSharpTest
 {
@@ -20,6 +21,7 @@ namespace CSharpTest
 	public class Menu
 	{
 		private User cacheUser;
+		private List<Item> cacheShoppingCar = new List<Item> ();
 
 		public void Start ()
 		{
@@ -329,7 +331,28 @@ namespace CSharpTest
 		//购物列表
 		public void ShowShoppingList ()
 		{
-//			SqliteDataReader sqReader //TODO
+			Console.WriteLine ("淘宝列表:");
+			List<Item> itemList = ItemTool.getInstance ().GetAllItems ();
+			foreach (var item in itemList) {
+				Console.WriteLine (item.ToString ());
+			}
+			Console.WriteLine ("选择功能:");
+			Console.WriteLine ("1.添加购物车");
+			Console.WriteLine ("2.付款");
+			Console.WriteLine ("3.退出");
+			String input = Console.ReadLine ();
+			switch (input) {
+			case "1":
+				ShowAddShoppingCar (itemList);
+				break;
+			case "2":
+				ShowPayCheck ();
+				break;
+			case "3":
+				break;
+			default:
+				break;
+			}
 		}
 
 		//-----------------------------  六级选项  -----------------------------
@@ -359,6 +382,35 @@ namespace CSharpTest
 			int amount = Convert.ToInt32 (Console.ReadLine ());
 			CustomerTool.getInstance ().UpdateCustomer ("acount", cacheUser.Acount + amount + "", "userName", cacheUser.UserName);
 			ShowCustomerOption ();
+		}
+
+		//添加商品至购物车
+		public void ShowAddShoppingCar (List<Item> list)
+		{
+			Console.WriteLine ("输入添加的商品id:");
+			int id = Convert.ToInt32 (Console.ReadLine ());
+			foreach (Item item in list) {
+				if (id == item.Id) {
+					cacheShoppingCar.Add (item);
+				}
+			}
+			ShowShoppingList();
+		}
+
+		//结账
+		public void ShowPayCheck ()
+		{
+			foreach (Item item in cacheShoppingCar) {//便利购物车
+				Console.WriteLine (item.ToString ());
+				//创建订单并保存
+
+				//扣除买家金额并保存
+
+				//添加卖家收入并保存
+			}
+
+//			清空购物车,TODO
+			Console.WriteLine ("支付成功");
 		}
 
 	}
