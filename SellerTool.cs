@@ -83,6 +83,14 @@ namespace CSharpTest
 			db.CloseSqlConnection ();
 			return s;
 		}
+			
+		//修改数值，用于充值/扣费等
+		public void UpdateSeller (String colname, String value, String selectKey, String selectValue)
+		{
+			db.OpenDB (dbPath);
+			db.UpdateInto (tableName, new string[]{ colname }, new string[] { value }, selectKey, selectValue);
+			db.CloseSqlConnection ();
+		}
 
 	}
 }

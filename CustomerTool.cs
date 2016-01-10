@@ -94,7 +94,7 @@ namespace CSharpTest
 			return c;
 		}
 
-		//修改数值，用于充值等
+		//修改数值，用于充值/扣费等
 		public void UpdateCustomer (String colname, String value, String selectKey, String selectValue)
 		{
 			db.OpenDB (dbPath);

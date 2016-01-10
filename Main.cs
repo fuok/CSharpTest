@@ -394,7 +394,7 @@ namespace CSharpTest
 					cacheShoppingCar.Add (item);
 				}
 			}
-			ShowShoppingList();
+			ShowShoppingList ();
 		}
 
 		//结账
@@ -402,14 +402,16 @@ namespace CSharpTest
 		{
 			foreach (Item item in cacheShoppingCar) {//便利购物车
 				Console.WriteLine (item.ToString ());
-				//创建订单并保存
+				//创建订单并保存,TODO
 
 				//扣除买家金额并保存
-
+				CustomerTool.getInstance ().UpdateCustomer ("acount", cacheUser.Acount - item.Price + "", "userName", cacheUser.UserName);
 				//添加卖家收入并保存
+				Seller s = SellerTool.getInstance ().getSellerData (item.Seller);
+				SellerTool.getInstance ().UpdateSeller ("acount", s.Acount + item.Price + "", "userName", s.UserName);
 			}
-
-//			清空购物车,TODO
+			//清空购物车
+			cacheShoppingCar.Clear ();
 			Console.WriteLine ("支付成功");
 		}
 
